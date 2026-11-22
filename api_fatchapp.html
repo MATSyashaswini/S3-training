@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Fetch App</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f4fa;
+            color: #29263b;
+            padding: 40px 7%;
+        }
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            color: #51459b;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #88849b;
+            font-size: 15px;
+        }
+
+        /* BUTTON */
+
+        #loadBtn {
+            display: block;
+            margin: 25px auto;
+            padding: 13px 30px;
+            background: #7165c5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #loadBtn:hover {
+            background: #5549a5;
+            transform: translateY(-2px);
+        }
+
+        #loadBtn:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* STATUS */
+
+        #loading {
+            text-align: center;
+            color: #7165c5;
+            margin: 20px;
+            font-weight: 500;
+        }
+
+        #error {
+            text-align: center;
+            color: #d9534f;
+            margin: 20px;
+        }
+
+        /* POST GRID */
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 35px;
+        }
+
+        /* POST CARD */
+
+        .card {
+            background: white;
+            padding: 23px;
+            border-radius: 12px;
+            border: 1px solid #e9e6f4;
+            box-shadow: 0 3px 12px rgba(50, 40, 90, 0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(50, 40, 90, 0.12);
+        }
+
+        .card-number {
+            display: inline-block;
+            background: #eeebff;
+            color: #7165c5;
+            padding: 5px 11px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #39334f;
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            text-transform: capitalize;
+        }
+
+        .card p {
+            color: #858195;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 25px 18px;
+            }
+
+            .header h1 {
+                font-size: 27px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>✦ Latest Posts</h1>
+
+        <p>Explore interesting posts fetched from a public API.</p>
+
+    </div>
+
+
+    <!-- LOAD BUTTON -->
+
+    <button id="loadBtn" onclick="fetchPosts()">
+        Load Posts ↓
+    </button>
+
+
+    <!-- LOADING AND ERROR -->
+
+    <p id="loading"></p>
+
+    <p id="error"></p>
+
+
+    <!-- POST CARDS -->
+
+    <div id="postContainer" class="container"></div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const API_URL = "https://jsonplaceholder.typicode.com/posts";
+
+        const container = document.getElementById("postContainer");
+
+        const loading = document.getElementById("loading");
+
+        const error = document.getElementById("error");
+
+        const loadBtn = document.getElementById("loadBtn");
+
+
+        // FETCH POSTS FROM API
+
+        async function fetchPosts() {
+
+            try {
+
+                // Clear previous data
+                container.innerHTML = "";
+
+                error.innerText = "";
+
+                // Show loading message
+                loading.innerText = "Loading posts... Please wait";
+
+                loadBtn.disabled = true;
+
+
+                // Fetch API data
+                const response = await fetch(API_URL);
+
+
+                // Check response
+                if (!response.ok) {
+
+                    throw new Error("Failed to fetch posts");
+
+                }
+
+
+                // Convert response into JSON
+                const posts = await response.json();
+
+
+                // Display posts as cards
+                posts.forEach(post => {
+
+                    const card = document.createElement("div");
+
+                    card.classList.add("card");
+
+
+                    // Post number
+                    const number = document.createElement("span");
+
+                    number.classList.add("card-number");
+
+                    number.textContent = `POST #${post.id}`;
+
+
+                    // Post title
+                    const title = document.createElement("h3");
+
+                    title.textContent = post.title;
+
+
+                    // Post description
+                    const description = document.createElement("p");
+
+                    description.textContent = post.body;
+
+
+                    // Add elements to card
+                    card.appendChild(number);
+
+                    card.appendChild(title);
+
+                    card.appendChild(description);
+
+
+                    // Add card to webpage
+                    container.appendChild(card);
+
+                });
+
+
+            }
+
+            catch (err) {
+
+                error.innerText = "Oops! " + err.message;
+
+            }
+
+            finally {
+
+                // Hide loading message
+                loading.innerText = "";
+
+                loadBtn.disabled = false;
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
