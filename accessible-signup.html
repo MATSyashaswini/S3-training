@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accessible Signup Form</title>
+
+    <style>
+
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f3f0;
+            color: #292929;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 15px;
+        }
+
+        /* FORM CONTAINER */
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* FORM GROUP */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #c0392b;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            color: #292929;
+        }
+
+        input:focus-visible {
+            outline: 3px solid #8c5bca;
+            outline-offset: 3px;
+            border-color: #7041a8;
+        }
+
+        input:user-invalid {
+            border-color: #c0392b;
+        }
+
+        .help-text {
+            display: block;
+            color: #555;
+            font-size: 13px;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* BUTTON */
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #7041a8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #542c85;
+        }
+
+        button:focus-visible {
+            outline: 3px solid #8c5bca;
+            outline-offset: 4px;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        .login-text a {
+            color: #7041a8;
+            font-weight: bold;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 375px) {
+            .container {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+            Sign up to get started with your account.
+            All fields marked with * are required.
+        </p>
+
+        <form action="#" method="get">
+
+            <!-- FULL NAME -->
+            <div class="form-group">
+
+                <label for="fullname">
+                    Full Name <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                    minlength="3"
+                    aria-describedby="name-help"
+                >
+
+                <small class="help-text" id="name-help">
+                    Enter at least 3 characters.
+                </small>
+
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address <span class="required">*</span>
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="example@gmail.com"
+                    autocomplete="email"
+                    required
+                    aria-describedby="email-help"
+                >
+
+                <small class="help-text" id="email-help">
+                    Enter a valid email address.
+                </small>
+
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+
+                <label for="password">
+                    Password <span class="required">*</span>
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                    minlength="8"
+                    pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}"
+                    title="Password must contain at least 8 characters, including one letter and one number."
+                    aria-describedby="password-help"
+                >
+
+                <small class="help-text" id="password-help">
+                    Minimum 8 characters, including at least one letter and one number.
+                </small>
+
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="form-group">
+
+                <label for="confirm-password">
+                    Confirm Password <span class="required">*</span>
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm-password"
+                    name="confirm-password"
+                    placeholder="Enter your password again"
+                    autocomplete="new-password"
+                    required
+                    minlength="8"
+                    aria-describedby="confirm-help"
+                >
+
+                <small class="help-text" id="confirm-help">
+                    Re-enter your password.
+                </small>
+
+            </div>
+
+            <!-- SUBMIT -->
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="login-text">
+            Already have an account?
+            <a href="#">Login</a>
+        </p>
+
+    </main>
+
+</body>
+</html>
